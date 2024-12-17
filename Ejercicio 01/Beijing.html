@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica con ECharts - Datos de ejemplo</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .grafica-container {
+            background: #fff; 
+            padding: 20px;
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            max-width: 800px;
+            width: 100%;
+            height: 500px; 
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <h2>Gráfica Beijing</h2>
+    <div class="grafica-container" id="main"></div>
+
+    <script>
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+
+        var option;
+
+        var data = [
+            ['2024-12-01', 820],
+            ['2024-12-02', 932],
+            ['2024-12-03', 901],
+            ['2024-12-04', 934],
+            ['2024-12-05', 1290],
+            ['2024-12-06', 1330],
+            ['2024-12-07', 1320]
+        ];
+
+        var data2 = [
+            ['2024-12-01', 700],
+            ['2024-12-02', 850],
+            ['2024-12-03', 900],
+            ['2024-12-04', 950],
+            ['2024-12-05', 1100],
+            ['2024-12-06', 1200],
+            ['2024-12-07', 1250]
+        ];
+
+        var data3 = [
+            ['2024-12-01', 600],
+            ['2024-12-02', 710],
+            ['2024-12-03', 750],
+            ['2024-12-04', 800],
+            ['2024-12-05', 1050],
+            ['2024-12-06', 1150],
+            ['2024-12-07', 1200]
+        ];
+
+        myChart.setOption(option = {
+            title: {
+                text: 'Gráfica de Lineas',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '5%',
+                right: '15%',
+                bottom: '10%'
+            },
+            xAxis: {
+                type: 'category',
+                data: data.map(function (item) {
+                    return item[0];
+                }),
+                axisLabel: {
+                    rotate: 45 
+                }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            toolbox: {
+                right: 10,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'slider',   // Deslizador para el zoom en el eje X
+                    show: true,
+                    xAxisIndex: [0],  // Aplica el zoom al eje X
+                    start: 0,         // Posición inicial del zoom
+                    end: 100          // Posición final del zoom
+                },
+                {
+                    type: 'inside',   // Zoom con el mouse
+                    xAxisIndex: [0],  // Aplica el zoom al eje X
+                }
+            ],
+            series: [
+                {
+                    name: 'Valor Diario 1',
+                    type: 'line',
+                    data: data.map(function (item) {
+                        return item[1];
+                    }),
+                    color: '#ff7f50',
+                    symbol: 'none', 
+                    markLine: {
+                        silent: true,
+                        data: [
+                            { yAxis: 1000, name: 'Límite superior' }
+                        ]
+                    }
+                },
+                {
+                    name: 'Valor Diario 2',
+                    type: 'line',
+                    data: data2.map(function (item) {
+                        return item[1];
+                    }),
+                    color: '#87cefa',
+                    symbol: 'none', 
+                    markLine: {
+                        silent: true,
+                        data: [
+                            { yAxis: 1000, name: 'Límite superior' }
+                        ]
+                    }
+                },
+                {
+                    name: 'Valor Diario 3',
+                    type: 'line',
+                    data: data3.map(function (item) {
+                        return item[1];
+                    }),
+                    color: '#32cd32',
+                    symbol: 'none', 
+                    markLine: {
+                        silent: true,
+                        data: [
+                            { yAxis: 1000, name: 'Límite superior' }
+                        ]
+                    }
+                }
+            ]
+        });
+    </script>
+
+</body>
+</html>

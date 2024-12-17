@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica de Lineas</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h2 {
+            color: #333; 
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .grafica-container {
+            background: #fff; 
+            padding: 20px;
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            max-width: 800px;
+            width: 100%;
+            height: 500px; 
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Gráfica Smoothed</h2>
+    <div class="grafica-container" id="main"></div>
+
+    <script>
+   
+        const data = [
+            ['2024-12-01', 820],
+            ['2024-12-02', 932],
+            ['2024-12-03', 901],
+            ['2024-12-04', 934],
+            ['2024-12-05', 1290],
+            ['2024-12-06', 1330],
+            ['2024-12-07', 1320]
+        ];
+
+
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+
+        var option = {
+            title: {
+                text: 'Gráfica de Lineas'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: { readOnly: false },
+                    magicType: { type: ['line', 'bar'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: data.map(function (item) {
+                    return item[0];
+                })
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: {
+                name: 'Datos',
+                type: 'line',
+                smooth: true,
+                data: data.map(function (item) {
+                    return item[1];
+                })
+            }
+        };  
+
+        option && myChart.setOption(option);
+
+        myChart.on('dataZoom', function (params) {
+            var zoomSize = params.batch[0].end - params.batch[0].start;
+            var zoomStart = params.batch[0].start;
+            var zoomEnd = params.batch[0].end;
+            var xAxis = myChart.getModel().component.xAxis;
+            var axisData = xAxis.getAxis().data;
+            var startValue = axisData[zoomStart];
+            var endValue = axisData[zoomEnd];
+            var zoomLabel = startValue + ' - ' + endValue;
+            myChart.setOption({
+                title: {
+                    text: zoomLabel
+                }
+            });
+        });
+    </script>
+</body>
+</html>
